@@ -30,14 +30,14 @@
 
 ### 步骤
 
-```powershell
+```bash
 # 1. 克隆并安装依赖
 git clone <repo-url>
 cd ai-ppt-generator
 make install            # 或: cd backend && uv sync
 
 # 2. 配置环境变量
-Copy-Item backend\.env.example backend\.env
+cp backend/.env.example backend/.env
 # 编辑 backend\.env，填入 LLM_API_KEY（OpenAI 兼容接口）
 
 # 3. 启动 PostgreSQL + Redis
@@ -78,7 +78,7 @@ ai-ppt-generator/
 
 - [架构设计](docs/architecture.md)：分层架构、关键决策、内容模型
 - [6 周学习计划](docs/learning-plan.md)：里程碑与进度追踪
-- [环境搭建指南](docs/setup.md)：Windows 实际执行记录与踩坑笔记
+- [环境搭建指南](docs/setup.md)：Linux 实际执行记录与踩坑笔记
 
 ## 开发进度
 
