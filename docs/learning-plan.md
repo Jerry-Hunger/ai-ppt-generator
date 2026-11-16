@@ -19,7 +19,7 @@
 
 ### W1 地基（后端骨架与 AI 首链路）
 - D1 ✅ uv 初始化 + docker-compose（PG 39432 / Redis 39379）+ Makefile + ruff/pytest + FastAPI `/health` 骨架
-- D2-3 SQLAlchemy 2 异步引擎 + AsyncSession + Base 声明基类；Alembic 初始化，第一版迁移（User 表）
+- D2-3 ✅ SQLAlchemy 2 异步引擎 + AsyncSession + Base 声明基类；Alembic 初始化，第一版迁移（User 表）
 - D4 JWT 注册/登录（pwdlib 哈希 + pyjwt 签发验证）
 - D5 Deck/Page/Block Pydantic 内容模型（三分离 JSON 设计）
 - D6 LangChain 接 LLM（OpenAI 兼容），试通 `with_structured_output` 生成大纲

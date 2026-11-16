@@ -94,7 +94,7 @@ pkill -f "uvicorn app.main:app"
 |---|---|
 | `make up` / `make down` | 启停 PG + Redis 容器 |
 | `make install` | uv sync 安装依赖 |
-| `make migrate` | Alembic 迁移（W2-D2 起生效） |
+| `make migrate` | Alembic 迁移（W1-D3 起生效，需先 `make up`） |
 | `make dev-api` / `make dev-worker` / `make dev-web` | 分别启动 API / Worker / 前端 |
 | `make test` / `make lint` / `make fmt` | 测试 / 检查 / 格式化 |
 
@@ -119,3 +119,11 @@ pkill -f "uvicorn app.main:app"
 
 3. **pytest-asyncio 弃用警告**
    - 需在 pyproject 显式设置 `asyncio_default_fixture_loop_scope = "function"`
+
+4. **WSL 发行版 Docker 集成偶发失效（docker: command not found）**
+   - 现象：WSL 内 `docker` 找不到命令，但 Docker Desktop 引擎在 Windows 侧正常运行
+   - 解决：直接用 Windows 侧 CLI 兜底（compose 项目只用命名卷，无绑定挂载，路径无关）：
+     ```bash
+     "/mnt/c/Program Files/Docker/Docker/resources/bin/docker.exe" compose up -d
+     ```
+   - 根治：Docker Desktop → Settings → Resources → WSL Integration 重新勾选本发行区
