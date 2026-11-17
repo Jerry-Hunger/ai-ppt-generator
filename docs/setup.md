@@ -31,6 +31,7 @@ uv init --bare backend          # 最小 pyproject，依赖用 uv add 增量管�
 uv add fastapi "uvicorn[standard]" "sqlalchemy[asyncio]" asyncpg alembic \
     pydantic-settings redis arq langchain-core langchain-openai langgraph \
     python-pptx httpx "pwdlib[bcrypt]" pyjwt
+uv add email-validator   # W1-D4：Pydantic EmailStr 校验依赖
 uv add --dev pytest pytest-asyncio ruff
 ```
 
