@@ -1,17 +1,19 @@
 # AI PPT 生成器
 
-基于 **FastAPI + LangChain + ARQ + React** 的 AI PPT 生成器：输入主题或长文本，生成可编辑大纲，并发生成完整页面，最终导出**原生可编辑的 PPTX** 文件。
+本项目旨在构建一个 AI PPT 生成器，支持从主题或长文本生成可编辑大纲、并发生成页面，并导出**原生可编辑的 PPTX** 文件。
 
 > 自研实战项目，从零实现，核心目标是完整实践 AI 工程化、异步任务编排、文档双端同源渲染的工程链路。
 
-## 功能特性（MVP）
+当前已实现 FastAPI 健康检查、PostgreSQL 异步数据层与 Alembic 迁移，以及 JWT 注册、登录和当前用户查询。
+
+## MVP 计划功能
 
 - **多输入生成大纲**：主题 / 长文本粘贴，通过 LangChain 结构化输出生成可修改的大纲（增删页面、调整要点）
 - **异步并发生成**：页级任务拆分，ARQ Worker 并发执行，SSE 实时推送进度，失败单页重试
 - **在线编辑**：React 19 编辑器，内容/布局/主题三分离数据模型
 - **原生 PPTX 导出**：python-pptx 逐块构造原生文本框等对象（非截图渲染），导出前质量分级检查（error 阻断 / warning 放行），导出后回读验证
 
-## 技术栈
+## 技术栈（含计划项）
 
 | 层 | 技术 |
 |---|---|
@@ -26,7 +28,8 @@
 
 ### 环境要求
 
-- Python 3.12+ / [uv](https://docs.astral.sh/uv/) / Node.js 20+ / Docker
+- 后端本地开发需要 Python 3.13+、[uv](https://docs.astral.sh/uv/)、Make 和 Docker Compose。
+- 前端计划在 W3 创建 `frontend/`，届时需要 Node.js 20+。
 
 ### 步骤
 
@@ -34,23 +37,24 @@
 # 1. 克隆并安装依赖
 git clone <repo-url>
 cd ai-ppt-generator
-make install            # 或: cd backend && uv sync
+make install
 
 # 2. 配置环境变量
 cp backend/.env.example backend/.env
-# 编辑 backend\.env，填入 LLM_API_KEY（OpenAI 兼容接口）
+# 当前 API 无需 LLM_API_KEY。
+# 若将 DEBUG 设为 false，请在 backend/.env 中配置非默认的 JWT_SECRET。
 
 # 3. 启动 PostgreSQL + Redis
-make up                 # 或: docker compose up -d
+make up
+docker compose ps       # 确认服务状态为 healthy 后继续
 
-# 4. 数据库迁移（W2 起可用）
+# 4. 执行数据库迁移
 make migrate
 
-# 5. 启动 API（三选一）
+# 5. 启动 API（保持终端运行）
 make dev-api
-# 或前台: cd backend && uv run uvicorn app.main:app --reload --port 39800
 
-# 6. 验证
+# 6. 在另一个终端检查 API
 curl http://127.0.0.1:39800/health
 ```
 
@@ -61,7 +65,7 @@ curl http://127.0.0.1:39800/health
 | API | 39800 |
 | PostgreSQL | 39432 |
 | Redis | 39379 |
-| 前端 | 39173（W3 起可用） |
+| 前端（计划） | 39173（尚未启用） |
 
 ## 目录结构
 
@@ -69,7 +73,6 @@ curl http://127.0.0.1:39800/health
 ai-ppt-generator/
 ├─ backend/           # FastAPI 后端（api / core / models / schemas / services / workers / llm）
 ├─ docs/              # 架构设计 · 学习计划 · 环境搭建指南
-├─ frontend/          # React 前端（W3 创建）
 ├─ docker-compose.yml # PostgreSQL + Redis
 └─ Makefile
 ```
@@ -83,8 +86,8 @@ ai-ppt-generator/
 ## 开发进度
 
 - [x] W1-D1 工程初始化（uv / docker-compose / FastAPI 骨架 / 冒烟测试）
-- [ ] W1-D2~D3 数据层（SQLAlchemy async + Alembic）
-- [ ] W1-D4 JWT 鉴权
+- [x] W1-D2~D3 数据层（SQLAlchemy async + Alembic）
+- [x] W1-D4 JWT 鉴权（注册、登录、当前用户查询）
 - [ ] W1-D5 统一内容模型
 - [ ] W1-D6 LangChain 结构化输出
 - [ ] W2 异步生成链路（ARQ + SSE）
